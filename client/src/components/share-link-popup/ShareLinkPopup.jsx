@@ -1,31 +1,3 @@
-// // components/share-link-popup/ShareLinkPopup.jsx
-// import React from 'react';
-// import './ShareLinkPopup.css';
-
-// const ShareLinkPopup = ({ formId, onClose }) => {
-//   const shareUrl = `${window.location.origin}/response/${formId}`;
-
-//   const handleCopy = () => {
-//     navigator.clipboard.writeText(shareUrl);
-//     alert('Link copied to clipboard!');
-//   };
-
-//   return (
-//     <div className="share-popup">
-//       <div className="share-popup-content">
-//         <h3>Share this form</h3>
-//         <input type="text" readOnly value={shareUrl} />
-//         <div className="popup-buttons">
-//           <button onClick={handleCopy}>Copy Link</button>
-//           <button onClick={onClose}>Close</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ShareLinkPopup;
-
 import React from 'react';
 // import './FormLinkPopup.css';
 import { FaTimes, FaLink, FaShareAlt } from 'react-icons/fa';

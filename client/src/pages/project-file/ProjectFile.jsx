@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const ProjectFile = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { folderId } = useParams();
   const [forms, setForms] = useState([]);
   const [folderName, setFolderName] = useState('');
@@ -16,7 +17,7 @@ const ProjectFile = () => {
       if (!userInfo?.token) return;
 
       try {
-        const res = await axios.get(`http://localhost:5000/api/folders/${folderId}/files`, {
+        const res = await axios.get(`${backendUrl}/api/folders/${folderId}/files`, {
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
           },
@@ -38,7 +39,7 @@ const ProjectFile = () => {
     if (!userInfo?.token) return;
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/folders/${folderId}`, {
+      const res = await axios.get(`${backendUrl}/api/folders/${folderId}`, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`,
         },

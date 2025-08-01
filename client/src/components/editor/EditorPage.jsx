@@ -19,6 +19,7 @@ import EditorSidebar from '../editor-sidebar/EditorSidebar';
 import ColorPickerBox from '../color-picker/ColorPicker';
 
 const EditorPage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [showConditionSelector, setShowConditionSelector] = useState(false);
   const [showPageRedirectPopup, setShowPageRedirectPopup] = useState(false);
   const [selectedConditions, setSelectedConditions] = useState([]);
@@ -45,47 +46,13 @@ const EditorPage = () => {
   const bgColorRef = useRef(null);
   const sectionColorRef = useRef(null);
 
-  // useEffect(() => {
-  //   const fetchForm = async () => {
-  //     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  //     if (!userInfo?.token) return;
-
-  //     try {
-  //       const res = await axios.get(`http://localhost:5000/api/forms/${formId}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${userInfo.token}`,
-  //         },
-  //       });
-
-  //       const { title, pages } = res.data;
-
-  //       setFormTitle(title);
-
-  //       if (pages && pages.length > 0) {
-  //         setPages(pages);
-  //       } else {
-  //         // fallback if no pages exist
-  //         setPages([
-  //           { id: Date.now(), sections: [{ id: Date.now(), content: [] }] }
-  //         ]);
-  //       }
-
-  //     } catch (err) {
-  //       console.error('Error fetching form data:', err);
-  //     }
-  //   };
-
-  //   fetchForm();
-  // }, [formId]);
-
-
   useEffect(() => {
     const fetchForm = async () => {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       if (!userInfo?.token) return;
 
       try {
-        const res = await axios.get(`http://localhost:5000/api/forms/${formId}`, {
+        const res = await axios.get(`${backendUrl}/api/forms/${formId}`, {
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
           },
@@ -99,7 +66,7 @@ const EditorPage = () => {
           setCanEdit(true);
         } else {
           // fetch user to check shared access
-          const userRes = await axios.get(`http://localhost:5000/api/auth/me`, {
+          const userRes = await axios.get(`${backendUrl}/api/auth/me`, {
             headers: { Authorization: `Bearer ${userInfo.token}` }
           });
 
@@ -260,7 +227,7 @@ const EditorPage = () => {
         return;
       }
       const res = await axios.put(
-        `http://localhost:5000/api/forms/${formId}`,
+        `${backendUrl}/api/forms/${formId}`,
         {
           pages,
           conditions: updatedConditions,
@@ -289,27 +256,6 @@ const EditorPage = () => {
 
   return (
     <div className="editor-container">
-      {/* <div className="sidebar">
-        <h3 className="logo">CANOVA</h3>
-        <div className="page-list">
-          {pages.map((page, index) => (
-            <button
-              key={page.id}
-              className={`page-btn ${index === currentPageIndex ? 'selected' : ''}`}
-              onClick={() => {
-                setCurrentPageIndex(index);
-                setCurrentSectionIndex(0); // reset to first section of the new page
-              }}
-            >
-              Page {String(index + 1).padStart(2, '0')}
-            </button>
-          ))}
-          <button className="add-page-btn" onClick={handleAddPage}>+ Add new Page</button>
-        </div>
-        <div className="profile">
-          <span><img src={profileImg} alt="" /> Profile</span>
-        </div>
-      </div> */}
       <EditorSidebar
         pages={pages}
         currentPageIndex={currentPageIndex}

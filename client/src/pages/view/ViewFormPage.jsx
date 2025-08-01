@@ -4,6 +4,7 @@ import './ViewFormPage.css';
 import QuestionBlock from '../../components/question-block/QuestionBlock';
 
 const ViewFormPage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { formId } = useParams();
   const [formTitle, setFormTitle] = useState('');
   const [pages, setPages] = useState([]);
@@ -11,7 +12,7 @@ const ViewFormPage = () => {
   useEffect(() => {
     const fetchForm = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/forms/view/${formId}`);
+        const res = await fetch(`${backendUrl}/api/forms/view/${formId}`);
         const data = await res.json();
         setFormTitle(data.title);
         setPages(data.pages || []);

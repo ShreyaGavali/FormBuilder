@@ -39,29 +39,6 @@ const UploadImg = ({ onClose, onUpload }) => {
     e.stopPropagation();
     setDragActive(false);
   };
-
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   setDragActive(false);
-
-  //   const file = e.dataTransfer.files[0];
-  //   if (file && file.type.startsWith('image/')) {
-  //     const url = URL.createObjectURL(file);
-  //     onUpload(url);
-  //     onClose();
-  //   }
-  // };
-
-  // const handleBrowse = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file && file.type.startsWith('image/')) {
-  //     const url = URL.createObjectURL(file);
-  //     onUpload(url);
-  //     onClose();
-  //   }
-  // };
-
   
 const handleDrop = async (e) => {
   e.preventDefault();

@@ -11,12 +11,13 @@ import {
 } from 'recharts';
 
 const FormAnalysis = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { formId } = useParams();
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
-      const res = await fetch(`http://localhost:5000/api/forms/${formId}/view-stats`);
+      const res = await fetch(`${backendUrl}/api/forms/${formId}/view-stats`);
       const data = await res.json();
       setStats(data);
     };

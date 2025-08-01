@@ -1,43 +1,3 @@
-// import React from 'react';
-// import './SigninPage.css';
-// import logoImg from "../../assets/Logo.png";
-// import welcomeImg from "../../assets/welcome.png";
-// import { Link } from 'react-router-dom';
-
-// const SigninPage = () => {
-//     return (
-//         <div className='signin-page'>
-//             <div className="logo-div">
-//                 <img src={logoImg} alt="" />
-//             </div>
-//             <div className="signin-div">
-//                 <div className="signin">
-//                     <div className="welcome-img">
-//                         <img src={welcomeImg} alt="" />
-//                     </div>
-//                     <p className="greet-text">Today is a new day. It's your day. You shape it.</p>
-//                     <p className="greet-text">Sign in to start managing your projects.</p>
-//                     <div className="signin-form">
-//                         <div className="form-group">
-//                             <label>Email</label>
-//                             <input type="email" placeholder="example@email.com" />
-//                         </div>
-//                         <div className="form-group">
-//                             <label>Password</label>
-//                             <input type="password" placeholder="at least 8 characters" />
-//                         </div>
-//                         <p className="forgot-pass"><Link to={'/forgot-password'}>Forgot Password ?</Link></p>
-//                     </div>
-//                     <button className="signin-btn">Sign in</button>
-//                     <p className="have-acc">Don't have an account? <Link to={'/signup'}>Sign up</Link></p>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default SigninPage
-
 import React, { useState } from 'react';
 import './SigninPage.css';
 import logoImg from "../../assets/Logo.png";
@@ -46,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const SigninPage = () => {
   const navigate = useNavigate();
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -70,7 +30,7 @@ const SigninPage = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${backendUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

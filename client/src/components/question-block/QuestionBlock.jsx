@@ -16,17 +16,6 @@ const QuestionBlock = ({ question, index, updateQuestion }) => {
     updateQuestion({ ...question, label: e.target.value });
   };
 
-  // const handleOptionChange = (e, optIndex) => {
-  //   const updatedOptions = [...(question.options || [])];
-  //   updatedOptions[optIndex] = e.target.value;
-
-  //   if (optIndex === updatedOptions.length - 1 && e.target.value.trim() !== '') {
-  //     updatedOptions.push('');
-  //   }
-  //   const cleanOptions = updatedOptions.map(opt => opt ?? '');
-  //   updateQuestion({ ...question, options: cleanOptions });
-  // };
-
   const handleKeyDown = (e, optIndex) => {
     if (e.key === 'Backspace' && question.options[optIndex] === '') {
       const updatedOptions = [...(question.options || [])];

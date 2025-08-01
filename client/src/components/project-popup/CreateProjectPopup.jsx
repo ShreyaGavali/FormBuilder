@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CreateProjectPopup = ({ onClose, onSuccess }) => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [folderName, setFolderName] = useState('');
   const [formName, setFormName] = useState('');
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const handleCreate = async () => {
     }
 
     // 1. Create Form
-    const formRes = await axios.post('http://localhost:5000/api/forms', {
+    const formRes = await axios.post(`${backendUrl}/api/forms`, {
       title: formName,
       createdBy: userId, // optional if backend uses req.user._id
       pages: [] // initially empty
@@ -43,7 +44,7 @@ const handleCreate = async () => {
     const formId = formRes.data._id;
 
     // 2. Create Folder with formId inside files
-    const folderRes = await axios.post('http://localhost:5000/api/folders', {
+    const folderRes = await axios.post(`${backendUrl}/api/folders`, {
       name: folderName,
       files: [formId]
     }, {

@@ -5,6 +5,7 @@ const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 const UploadVdo = ({ onClose, onUpload }) => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [dragActive, setDragActive] = useState(false);
   
   const uploadVideoToCloudinary = async (file) => {
@@ -38,28 +39,6 @@ const UploadVdo = ({ onClose, onUpload }) => {
     e.stopPropagation();
     setDragActive(false);
   };
-
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   setDragActive(false);
-
-  //   const file = e.dataTransfer.files[0];
-  //   if (file && file.type.startsWith('video/')) {
-  //     const url = URL.createObjectURL(file);
-  //     onUpload(url);
-  //     onClose();
-  //   }
-  // };
-
-  // const handleBrowse = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file && file.type.startsWith('video/')) {
-  //     const url = URL.createObjectURL(file);
-  //     onUpload(url);
-  //     onClose();
-  //   }
-  // };
 
   const handleBrowse = async (e) => {
   const file = e.target.files[0];

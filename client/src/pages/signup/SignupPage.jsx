@@ -1,50 +1,3 @@
-// import React from 'react';
-// import './SignupPage.css';
-// import logoImg from "../../assets/Logo.png";
-// import welcomeImg from "../../assets/welcome.png";
-// import { Link, useNavigate } from 'react-router-dom';
-
-// const SignupPage = () => {
-//     return (
-//         <div className='signup-page'>
-//             <div className="logo-div">
-//                 <img src={logoImg} alt="" />
-//             </div>
-//             <div className="signup-div">
-//                 <div className="signup">
-//                     <div className="welcome-img">
-//                         <img src={welcomeImg} alt="" />
-//                     </div>
-//                     <p className="greet-text">Today is a new day. It's your day. You shape it.</p>
-//                     <p className="greet-text">Sign in to start managing your projects.</p>
-//                     <div className="signup-form">
-//                         <div className="form-group">
-//                             <label>Name</label>
-//                             <input type="text" placeholder="Name" />
-//                         </div>
-//                         <div className="form-group">
-//                             <label>Email</label>
-//                             <input type="email" placeholder="example@email.com" />
-//                         </div>
-//                         <div className="form-group">
-//                             <label>Create Password</label>
-//                             <input type="password" placeholder="at least 8 characters" />
-//                         </div>
-//                         <div className="form-group">
-//                             <label>Confirm Password</label>
-//                             <input type="password" placeholder="at least 8 characters" />
-//                         </div>
-//                     </div>
-//                     <button className="signup-btn">Sign up</button>
-//                     <p className="have-acc">Do you have an account? <Link to={'/signin'}>Sign in</Link></p>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default SignupPage
-
 import React, { useState } from 'react';
 import './SignupPage.css';
 import logoImg from "../../assets/Logo.png";
@@ -52,6 +5,7 @@ import welcomeImg from "../../assets/welcome.png";
 import { Link, useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -82,7 +36,7 @@ const SignupPage = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${backendUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 
 
 const HomePage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [showProjectPopup, setShowProjectPopup] = useState(false);
   const [showFormPopup, setShowFormPopup] = useState(false);
   const [sharedForms, setSharedForms] = useState([]);
@@ -42,7 +43,7 @@ const HomePage = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const token = userInfo?.token;
 
-        const res = await axios.get('http://localhost:5000/api/forms/shared', {
+        const res = await axios.get(`${backendUrl}/api/forms/shared`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -64,10 +65,10 @@ const HomePage = () => {
         const token = userInfo?.token;
 
         const [formRes, folderRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/forms', {
+          axios.get(`${backendUrl}/api/forms`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get('http://localhost:5000/api/folders', {
+          axios.get(`${backendUrl}/api/folders`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -97,7 +98,6 @@ const HomePage = () => {
         <p className='welcome'>Welcome to CANOVA</p>
         <hr />
         <div className="create">
-          {/* <CreateProjectForm img={CreateProjectImg} title="Start From Scratch" desc="Create your first project now" /> */}
           <div onClick={() => setShowProjectPopup(true)}>
             <CreateProjectForm img={CreateProjectImg} title="Start From Scratch" desc="Create your first project now" />
           </div>
@@ -108,16 +108,6 @@ const HomePage = () => {
         <div className="recent-works">
           <p className='recent'>Recent Works</p>
           <div className="work">
-            {/* {forms.map((form) => (
-              <Link to={`/create/${form._id}`} key={form._id}>
-                <Form formName={form.title} img={CreateFormImg} formid={form._id} />
-              </Link>
-            ))}
-            {folders.map((folder) => (
-              <Link to={`/project/files/${folder._id}`} key={folder._id}>
-                <Folder projectName={folder.name} img={CreateProjectImg} />
-              </Link>
-            ))} */}
             <div className="work">
               {forms.length === 0 && folders.length === 0 ? (
                 <p style={{ color: '#888' }}>You don't have any recent work.</p>

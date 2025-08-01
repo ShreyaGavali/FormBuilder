@@ -1,36 +1,3 @@
-// import React from 'react';
-// import './ForgotPasswordPage.css';
-// import logoImg from "../../assets/Logo.png";
-// import welcomeImg from "../../assets/welcome.png";
-// import { Link } from 'react-router-dom';
-
-// const ForgotPasswordPage = () => {
-//     return (
-//         <div className='forgotpassword-page'>
-//             <div className="logo-div">
-//                 <img src={logoImg} alt="" />
-//             </div>
-//             <div className="forgotpassword-div">
-//                 <div className="forgotpassword">
-//                     <div className="welcome-img">
-//                         <img src={welcomeImg} alt="" />
-//                     </div>
-//                     <p className="greet-text">Please enter your registered email ID to receive an OTP</p>
-//                     <div className="signin-form">
-//                         <div className="form-group">
-//                             <label>Email</label>
-//                             <input type="email" placeholder="Enter your register email" />
-//                         </div>
-//                     </div>
-//                     <button className="signin-btn"><Link to={'/verify-otp'}> Send Email</Link></button>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default ForgotPasswordPage
-
 import React, { useState } from 'react';
 import './ForgotPasswordPage.css';
 import logoImg from "../../assets/Logo.png";
@@ -38,6 +5,7 @@ import welcomeImg from "../../assets/welcome.png";
 import { useNavigate } from 'react-router-dom';
 
 const ForgotPasswordPage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -52,7 +20,7 @@ const ForgotPasswordPage = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/password/send-otp', {
+      const res = await fetch(`${backendUrl}/api/password/send-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

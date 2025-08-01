@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const FormPopup = ({ onClose, onSuccess }) => {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [formName, setFormName] = useState('');
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleCreate = async () => {
         if (!formName.trim()) {
@@ -26,7 +28,7 @@ const FormPopup = ({ onClose, onSuccess }) => {
             }
 
             // 1. Create Form
-            const formRes = await axios.post('http://localhost:5000/api/forms', {
+            const formRes = await axios.post(`${backendUrl}/api/forms`, {
                 title: formName,
                 createdBy: userId, // optional if backend uses req.user._id
                 pages: [] // initially empty

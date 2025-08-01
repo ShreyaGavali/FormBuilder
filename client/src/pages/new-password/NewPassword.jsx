@@ -1,39 +1,3 @@
-// import React from 'react';
-// import './NewPassword.css';
-// import logoImg from "../../assets/Logo.png";
-// import welcomeImg from "../../assets/welcome.png";
-// import { Link } from 'react-router-dom';
-
-// const NewPassword = () => {
-//     return (
-//         <div className='new-pass-page'>
-//             <div className="logo-div">
-//                 <img src={logoImg} alt="" />
-//             </div>
-//             <div className="new-pass-div">
-//                 <div className="new-pass">
-//                     <h3>Create New Password</h3>
-//                     <p className="greet-text">Today is a new day. It's your day. You shape it.</p>
-//                     <p className="greet-text">Sign in to start managing your projects.</p>
-//                     <div className="new-pass-form">
-//                         <div className="form-group">
-//                             <label>Enter New Password</label>
-//                             <input type="password" placeholder="at least 8 characters" />
-//                         </div>
-//                         <div className="form-group">
-//                             <label>Confirm Password</label>
-//                             <input type="password" placeholder="at least 8 characters" />
-//                         </div>
-//                     </div>
-//                     <button className="new-pass-btn"><Link to={'/signin'}>Reset Password</Link></button>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default NewPassword
-
 import React, { useState } from 'react';
 import './NewPassword.css';
 import logoImg from "../../assets/Logo.png";
@@ -41,6 +5,7 @@ import welcomeImg from "../../assets/welcome.png";
 import { useNavigate } from 'react-router-dom';
 
 const NewPassword = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -66,7 +31,7 @@ const NewPassword = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/password/reset-password', {
+      const res = await fetch(`${backendUrl}/api/password/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

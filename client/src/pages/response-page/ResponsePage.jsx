@@ -4,6 +4,7 @@ import './ResponsePage.css';
 import AnswerBlock from '../../components/answer-block/AnswerBlock';
 
 const ResponsePage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { formId } = useParams();
   const [formTitle, setFormTitle] = useState('');
   const [pages, setPages] = useState([]);
@@ -11,7 +12,7 @@ const ResponsePage = () => {
   useEffect(() => {
     const fetchForm = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/forms/view/${formId}`);
+        const res = await fetch(`${backendUrl}/api/forms/view/${formId}`);
         const data = await res.json();
         setFormTitle(data.title);
         setPages(data.pages || []);
@@ -22,7 +23,7 @@ const ResponsePage = () => {
 
     const logView = async () => {
       try {
-        await fetch(`http://localhost:5000/api/forms/${formId}/view`, {
+        await fetch(`${backendUrl}/api/forms/${formId}/view`, {
           method: 'POST',
         });
       } catch (err) {

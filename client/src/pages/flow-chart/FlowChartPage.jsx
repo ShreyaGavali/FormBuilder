@@ -9,6 +9,7 @@ import FormLinkPopup from '../../components/link-popup/FormLinkPopup';
 
 
 const FlowChartPage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { formId } = useParams();
   const [pages, setPages] = useState([]);
   const [conditions, setConditions] = useState([]);
@@ -30,7 +31,7 @@ const FlowChartPage = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const token = userInfo?.token;
 
-        const formRes = await axios.get(`http://localhost:5000/api/forms/${formId}`, {
+        const formRes = await axios.get(`${backendUrl}/api/forms/${formId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -38,7 +39,7 @@ const FlowChartPage = () => {
 
         setPages(formRes.data.pages || []);
 
-        const condRes = await axios.get(`http://localhost:5000/api/forms/${formId}/conditions-summary`);
+        const condRes = await axios.get(`${backendUrl}/api/forms/${formId}/conditions-summary`);
         setConditions(condRes.data || []);
       } catch (error) {
         console.error('Error fetching flow data:', error);
@@ -52,8 +53,6 @@ const FlowChartPage = () => {
     const index = pages.findIndex(p => p.id === pageId);
     return index !== -1 ? `Page ${String(index + 1).padStart(2, '0')}` : 'Unknown Page';
   };
-
-  // if (!pages.length || !conditions.length) return <div>Loading flowchart...</div>;
 
   return (
     <div className="flowchart-layout">
@@ -94,9 +93,6 @@ const FlowChartPage = () => {
         )}
 
         < button className="next-btn" onClick={() => setShowPublishPopup(true)}>Next</button>
-        {/* {showPublishPopup && (
-        <PublishPopup formId={formId} onClose={() => setShowPublishPopup(false)} />
-      )} */}
         {showPublishPopup && (
           <PublishPopup
             formId={formId}

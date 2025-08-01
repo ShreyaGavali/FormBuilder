@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const AnalysisPage = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [sharedForms, setSharedForms] = useState([]);
   const navigate = useNavigate();
   const [forms, setForms] = useState([]);
@@ -20,7 +21,7 @@ const AnalysisPage = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const token = userInfo?.token;
 
-        const res = await axios.get('http://localhost:5000/api/forms/shared', {
+        const res = await axios.get(`${backendUrl}/api/forms/shared`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,10 +53,10 @@ const AnalysisPage = () => {
         const token = userInfo?.token;
 
         const [formRes, folderRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/forms', {
+          axios.get(`${backendUrl}/api/forms`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get('http://localhost:5000/api/folders', {
+          axios.get(`${backendUrl}/api/folders`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -87,9 +88,6 @@ const AnalysisPage = () => {
         <div className="recent-works">
           <p className='recent'>Recent Works</p>
           <div className="work">
-            {/* <Form formName="Form Name" img={CreateFormImg} />
-            <Form formName="Form Name" img={CreateFormImg} />
-            <Folder projectName="Project Name" img={CreateProjectImg} /> */}
             {forms.length === 0 && folders.length === 0 ? (
                 <p style={{ color: '#888' }}>You don't have any recent work.</p>
               ) : (
@@ -111,8 +109,6 @@ const AnalysisPage = () => {
         <div className="share-work">
           <p className='share'>Shared Works</p>
           <div className="shared-work">
-            {/* <Form formName="Form Name" img={CreateFormImg} />
-            <Folder projectName="Project Name" img={CreateProjectImg} /> */}
             {sharedForms.length === 0 ? (
               <p style={{ color: '#888' }}>No forms shared with you.</p>
             ) : (

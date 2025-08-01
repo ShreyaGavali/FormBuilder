@@ -2,6 +2,7 @@
 import React from 'react';
 // import './EditorSidebar.css'; // you can move existing sidebar styles here
 import profileImg from '../../assets/profile.png';
+import { Link } from 'react-router-dom';
 
 const EditorSidebar = ({ pages, currentPageIndex, setCurrentPageIndex, handleAddPage }) => {
   return (
@@ -19,9 +20,11 @@ const EditorSidebar = ({ pages, currentPageIndex, setCurrentPageIndex, handleAdd
         ))}
         <button className="add-page-btn" onClick={handleAddPage}>+ Add new Page</button>
       </div>
+      <Link to={'/profile'}>
       <div className="profile">
         <span><img src={profileImg} alt="" /> Profile</span>
       </div>
+      </Link>
     </div>
   );
 };

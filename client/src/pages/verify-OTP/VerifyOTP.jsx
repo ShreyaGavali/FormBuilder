@@ -1,35 +1,3 @@
-// import React from 'react';
-// import './VerifyOTP.css';
-// import logoImg from "../../assets/Logo.png";
-// import welcomeImg from "../../assets/welcome.png";
-// import { Link } from 'react-router-dom';
-
-// const VerifyOTP = () => {
-//     return (
-//         <div className='verify-page'>
-//             <div className="logo-div">
-//                 <img src={logoImg} alt="" />
-//             </div>
-//             <div className="verify-div">
-//                 <div className="verify">
-//                     <h3>Enter Your OTP</h3>
-//                     <p className="greet-text">We've sent a 6-digit OTP to your registered mail.</p>
-//                     <p className="greet-text">Please enter it below to sign in</p>
-//                     <div className="verify-form">
-//                         <div className="form-group">
-//                             <label>OTP</label>
-//                             <input type="email" placeholder="xxx05" />
-//                         </div>
-//                     </div>
-//                     <button className="verify-btn"><Link to={'/reset-password'}>Confirm</Link></button>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default VerifyOTP
-
 import React, { useState } from 'react';
 import './VerifyOTP.css';
 import logoImg from "../../assets/Logo.png";
@@ -37,6 +5,7 @@ import welcomeImg from "../../assets/welcome.png";
 import { useNavigate } from 'react-router-dom';
 
 const VerifyOTP = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
@@ -50,7 +19,7 @@ const VerifyOTP = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/password/verify-otp', {
+      const res = await fetch(`${backendUrl}/api/password/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
