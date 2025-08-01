@@ -1,0 +1,97 @@
+ .flowchart-container {
+  padding: 40px;
+  /* text-align: center; */
+  font-size: smaller;
+  height: 85vh;
+  width: calc(90vw - 200px);
+  position: relative; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-node {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px auto;
+  background-color: #e6f0fa;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.flow-branch {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  /* margin-top: 30px; */
+}
+
+.condition-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flow-line {
+  width: 2px;
+  height: 40px;
+  /* background: #888; */
+  margin: 5px 0;
+  /* border-style: dotted; */
+  border-left: 2px dashed #888;
+}
+
+.next-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+
+.condition-block {
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.condition-block ul {
+  margin: 5px 0 0;
+  padding-left: 20px;
+} 
+
+.tag{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: #e7eef5;
+  height: 20px;
+  width: 80px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.tag img{
+  height: 20px;
+  width: 20px;
+}
+
+.flowchart-layout{
+  display: flex;
+}
+
+.no-conditions-message {
+  text-align: center;
+  margin: 20px;
+  font-size: 18px;
+  color: #888;
+}

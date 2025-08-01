@@ -1,0 +1,41 @@
+.side-bar{
+    /* border: 2px solid black; */
+    height: 100vh;
+    width: 225px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    gap: 10px;
+    font-size: larger;
+}
+
+.logo p{
+    color: #b3b3b3;
+}
+
+.home , .analysis , .project , .profile{
+    display: flex;
+    align-items: center;
+    margin: 20px 20px 20px 20px;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.items{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: space-between;
+    /* border: 2px solid black; */
+    height: 85vh;
+}
+
+.active{
+    background-color: #bfdaf5;
+}

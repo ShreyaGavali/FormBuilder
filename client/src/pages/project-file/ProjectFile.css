@@ -1,0 +1,63 @@
+.project-files{
+    /* border: 2px solid black; */
+    height: 100vh;
+    width: calc(100vw - 225px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-file{
+    border: 2px solid black;
+    height: 98vh;
+    width: calc(100vw - 250px);
+    border-radius: 20px;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    /* border: 1px solid black; */
+}
+
+.search{
+    width: 52vw;
+    /* border: 1px solid black; */
+    background-color: #d7e5f1;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.search-bar input{
+    width:50vw;
+    height: 30px;
+    border: none;
+    background-color: #d7e5f1;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.search-bar input:focus{
+    border: none;
+    outline: none;
+}
+
+.file{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 20px;
+}
+
+.head{
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+    align-items: center;
+}
+
+.project-name{
+    font-size: xx-large;
+}

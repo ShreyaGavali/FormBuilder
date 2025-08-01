@@ -1,0 +1,50 @@
+.home-page{
+    /* border: 2px solid black; */
+    height: 100vh;
+    width: calc(100vw - 225px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home1{
+    border: 2px solid black;
+    height: 98vh;
+    width: calc(100vw - 250px);
+    border-radius: 20px;
+}
+
+.welcome{
+    margin: 20px;
+    font-size: xx-large;
+    /* font-weight: 500; */
+}
+
+.create{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    gap: 30px;
+    cursor: pointer;
+}
+
+.recent{
+    margin: 20px;
+}
+
+.work{
+    display: flex;
+    margin: 20px;
+    gap: 30px;
+}
+
+.share{
+    margin: 20px !important;
+}
+
+.shared-work{
+    display: flex;
+    gap: 30px;
+    margin: 20px;
+    flex-wrap: wrap;
+}

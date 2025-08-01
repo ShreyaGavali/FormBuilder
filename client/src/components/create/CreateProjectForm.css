@@ -1,0 +1,23 @@
+.create-project-form{
+    /* border: 2px solid black; */
+    width: 350px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    background-color: white;
+}
+
+.create-project-form img{
+    background-color: #69b5f8;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.title{
+    font-weight: 600;
+}

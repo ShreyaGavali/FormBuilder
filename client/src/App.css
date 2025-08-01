@@ -1,0 +1,14 @@
+*{
+  font-family: "Inter", sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.app{
+  display: flex;
+}

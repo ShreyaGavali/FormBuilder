@@ -1,0 +1,86 @@
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Container */
+.popup-content {
+  background-color: white;
+  width: 600px;
+  height: 300px;
+  border-radius: 10px;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
+}
+
+/* Close (X) Button */
+.popup-content .close-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Upload Title */
+.popup-content h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 40px;
+}
+
+/* Drag & Drop Box */
+.upload-box {
+  margin-top: 20px;
+  padding: 40px 20px;
+  border: 2px dashed #bcbcbc;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #2e2e2e;
+  height: 150px;
+}
+
+/* File text */
+.upload-box .note {
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* Browse files button */
+.upload-box .browse-btn {
+  margin-top: 8px;
+  background-color: #007bff;
+  color: white;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upload-box .browse-btn:hover {
+  background-color: #005ecb;
+}
+
+.or{
+  margin: 20px;
+}

@@ -1,0 +1,34 @@
+.project-folder{
+    /* border: 2px solid black; */
+    width: 150px;
+    height: 120px;
+    padding: 10px;
+    /* background-color: black; */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    background-color: white;
+}
+
+.project-folder p{
+    font-size: small;
+}
+
+.folder-img{
+    background-color: #69b5f8;
+    padding: 20px;
+    margin: auto;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+.view-analysis{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view{
+    height: 20px;
+}

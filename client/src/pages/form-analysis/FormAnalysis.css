@@ -1,0 +1,101 @@
+.form-analysis-container {
+  padding: 2rem;
+  /* font-family: 'Segoe UI', sans-serif; */
+  /* background-color: #f9f9f9; */
+  height: 80vh;
+  width: calc(100vw - 300px);
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: space-evenly; */
+  gap: 50px;
+  padding-top: 100px;
+}
+
+.analysis-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 100px;
+}
+
+.analysis-card {
+  background-color: #F4F4FF;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 160px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+  text-align: left;
+}
+
+.analysis-label {
+  font-size: 14px;
+  color: #999;
+}
+
+.analysis-count {
+  font-size: 22px;
+  margin: 0.25rem 0;
+}
+
+.analysis-change {
+  font-size: 12px;
+  color: #4CAF50;
+}
+
+.up-arrow {
+  font-weight: bold;
+}
+
+.analysis-chart-box {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+  width: 70%;
+  height: 350px;
+}
+
+.analysis-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.chart-title {
+  font-weight: 600;
+  margin-right: 1rem;
+}
+
+.chart-tabs {
+  color: #999;
+  margin-right: 1rem;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 13px;
+  margin-top: 0.5rem;
+}
+
+.this-year-dot,
+.last-year-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.this-year-dot {
+  background-color: #000;
+}
+
+.last-year-dot {
+  background-color: #A5A5A5;
+}

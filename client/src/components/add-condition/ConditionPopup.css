@@ -1,0 +1,89 @@
+/* components/ConditionPopup/ConditionPopup.css */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.condition-popup {
+  background-color: #e7eef5 !important;
+  padding: 25px;
+  border-radius: 12px;
+  width: 980px !important;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin-top: 40px;
+  margin-right: 40px;
+}
+
+.condition-popup h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.condition-popup p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.condition-question {
+  margin-bottom: 18px;
+}
+
+.condition-question strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.condition-question label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin: 4px 0;
+  cursor: pointer;
+}
+
+.condition-question input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.condition-continue-btn {
+  width: 15% !important;
+  background-color: #69b5f8;
+  color: white;
+  padding: 10px 0;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.condition-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background-color: transparent !important;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  width: 40px !important;
+  color: black !important;
+}
+
+.condition-input{
+    width: 20px !important;
+}
