@@ -63,41 +63,79 @@ const HomePage = () => {
     fetchSharedForms();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      setLoadingRecent(true);
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const token = userInfo?.token;
+
+      const [formRes, folderRes] = await Promise.all([
+        axios.get(`${backendUrl}/api/forms`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        axios.get(`${backendUrl}/api/folders`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+
+      const sortedForms = [...formRes.data].sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
+
+      const sortedFolders = [...folderRes.data].sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
+
+      setForms(sortedForms);
+      setFolders(sortedFolders);
+    } catch (err) {
+      console.error('Error fetching forms/folders:', err);
+    } finally {
+      setLoadingRecent(false); // stop loading
+    }
+  };
+
+  // 👇 call it on mount
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingRecent(true);
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const token = userInfo?.token;
-
-        const [formRes, folderRes] = await Promise.all([
-          axios.get(`${backendUrl}/api/forms`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get(`${backendUrl}/api/folders`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-        ]);
-
-        const sortedForms = [...formRes.data].sort(
-          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-        );
-
-        const sortedFolders = [...folderRes.data].sort(
-          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-        );
-
-        setForms(sortedForms);
-        setFolders(sortedFolders);
-      } catch (err) {
-        console.error('Error fetching forms/folders:', err);
-      } finally {
-        setLoadingRecent(false); // stop loading
-      }
-    };
-
     fetchData();
   }, []);
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoadingRecent(true);
+  //       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  //       const token = userInfo?.token;
+
+  //       const [formRes, folderRes] = await Promise.all([
+  //         axios.get(`${backendUrl}/api/forms`, {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }),
+  //         axios.get(`${backendUrl}/api/folders`, {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }),
+  //       ]);
+
+  //       const sortedForms = [...formRes.data].sort(
+  //         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+  //       );
+
+  //       const sortedFolders = [...folderRes.data].sort(
+  //         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+  //       );
+
+  //       setForms(sortedForms);
+  //       setFolders(sortedFolders);
+  //     } catch (err) {
+  //       console.error('Error fetching forms/folders:', err);
+  //     } finally {
+  //       setLoadingRecent(false); // stop loading
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
 
   return (
@@ -171,9 +209,11 @@ const HomePage = () => {
       </div>
       {showProjectPopup && <CreateProjectPopup onClose={() => setShowProjectPopup(false)} onSuccess={() => {
         toast.success('Project Created 🎉');
+        fetchData();
       }} />}
       {showFormPopup && <FormPopup onClose={() => setShowFormPopup(false)} onSuccess={() => {
         toast.success('Form Created ✅');
+        fetchData();
       }} />}
       {shareLinkFormId && (
         <ShareLinkPopup

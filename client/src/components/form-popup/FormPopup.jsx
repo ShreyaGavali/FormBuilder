@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import './CreateProjectPopup.css';
+import './FormPopup.css';
 import img from '../../assets/Vector.png';
 import closeBtnImg from '../../assets/Vector 1.png';
 import { useNavigate } from 'react-router-dom';
@@ -72,7 +72,7 @@ const FormPopup = ({ onClose, onSuccess }) => {
                     onChange={(e) => setFormName(e.target.value)}
                 />
 
-                <button onClick={handleCreate} disabled={loading}>{loading ? 'Creating...' : 'Create'}</button>
+                <button className='create-btn' onClick={handleCreate} disabled={loading}>{loading ? 'Creating...' : 'Create'}</button>
             </div>
         </div>
     );

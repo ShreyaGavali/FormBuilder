@@ -48,6 +48,7 @@ const EditorPage = () => {
   const sectionColorRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isFormSavedAfterChange, setIsFormSavedAfterChange] = useState(false);
 
   useEffect(() => {
     const fetchForm = async () => {
@@ -169,6 +170,7 @@ const EditorPage = () => {
       return updatedPages;
     });
     console.log("Adding question to page:", currentPageIndex);
+    setIsFormSavedAfterChange(false);
   };
 
 
@@ -194,6 +196,7 @@ const EditorPage = () => {
     });
     setPages(updatedPages);
     setShowImagePopup(false);
+    setIsFormSavedAfterChange(false);
   };
 
   const handleUploadVideo = (url) => {
@@ -205,6 +208,7 @@ const EditorPage = () => {
     });
     setPages(updatedPages);
     setShowVideoPopup(false);
+    setIsFormSavedAfterChange(false);
   };
 
   const handleAddText = () => {
@@ -215,6 +219,7 @@ const EditorPage = () => {
       data: { content: 'Enter your text...' }
     });
     setPages(updatedPages);
+    setIsFormSavedAfterChange(false);
   };
 
   const updateTextBlock = (blockIndex, newText) => {
@@ -248,6 +253,7 @@ const EditorPage = () => {
 
       if (res.status === 200) {
         toast.success('Form data added successfully');
+        setIsFormSavedAfterChange(true);
         console.log('Updated form:', res.data);
       }
     } catch (err) {
@@ -481,10 +487,10 @@ const EditorPage = () => {
                 <span>100%</span>
               </div>
             </div>
-            {goNext && (
+            {/* {goNext && (
               <Link to={`/flow-chart/${formId}`}>
                 {/* <button className="next-btn">Next</button> */}
-                <button
+            {/* <button
                   className="next-btn"
                   disabled={isCurrentPageEmpty()}
                   style={{
@@ -493,9 +499,47 @@ const EditorPage = () => {
                   }}
                 >
                   Next
+                </button> 
+                const disableNext =
+                isCurrentPageEmpty() || !isFormSavedAfterChange;
+
+                <button
+                  className="next-btn"
+                  disabled={disableNext}
+                  style={{
+                    opacity: disableNext ? 0.6 : 1,
+                    cursor: disableNext ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  Next
                 </button>
               </Link>
+            )} */}
+            {goNext && (
+              <>
+                {
+                  // ✅ Define this just before the button
+                  (() => {
+                    const disableNext = isCurrentPageEmpty() || !isFormSavedAfterChange;
+                    return (
+                      <Link to={`/flow-chart/${formId}`}>
+                        <button
+                          className="next-btn"
+                          disabled={disableNext}
+                          style={{
+                            opacity: disableNext ? 0.6 : 1,
+                            cursor: disableNext ? 'not-allowed' : 'pointer'
+                          }}
+                        >
+                          Next
+                        </button>
+                      </Link>
+                    );
+                  })()
+                }
+              </>
             )}
+
           </div>
         </div>
       </div>

@@ -175,3 +175,12 @@
 .access-dropdown.small div:hover {
   background-color: #f0f0f0;
 }
+
+.publish-btn:disabled {
+  background-color: #cccccc;  /* light gray */
+  color: #666666;             /* dimmed text */
+  cursor: not-allowed !important;
+  opacity: 0.7;
+  pointer-events: none;
+}
+

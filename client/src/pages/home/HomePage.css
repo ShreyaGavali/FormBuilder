@@ -4,7 +4,7 @@
     width: calc(100vw - 225px);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
 }
 
 .home1{
@@ -34,6 +34,7 @@
 
 .work{
     display: flex;
+    flex-wrap: wrap;
     margin: 20px;
     gap: 30px;
 }
@@ -44,6 +45,7 @@
 
 .shared-work{
     display: flex;
+    flex-wrap: wrap;
     gap: 30px;
     margin: 20px;
     flex-wrap: wrap;

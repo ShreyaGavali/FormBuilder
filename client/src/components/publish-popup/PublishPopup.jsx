@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './PublishPopup.css';
 import vectorImg from '../../assets/Vector.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PublishPopup = ({ onClose, formId, onShowLinkPopup }) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -13,6 +14,8 @@ const PublishPopup = ({ onClose, formId, onShowLinkPopup }) => {
     const [newEmail, setNewEmail] = useState('');
     const [dropdownIndex, setDropdownIndex] = useState(null);
     const [emailActions, setEmailActions] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOwnerEmail = async () => {
@@ -42,11 +45,12 @@ const PublishPopup = ({ onClose, formId, onShowLinkPopup }) => {
     };
 
     const handlePublish = async () => {
+        setLoading(true);
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const token = userInfo?.token;
 
-        if (accessType === 'Restricted' && sharedEmails.length > 0) {
-            try {
+        try {
+            if (accessType === 'Restricted' && sharedEmails.length > 0) {
                 const sharesPayload = sharedEmails.map((email, idx) => ({
                     email,
                     access: emailActions[idx] || 'view'
@@ -63,18 +67,21 @@ const PublishPopup = ({ onClose, formId, onShowLinkPopup }) => {
                 );
 
                 alert('Form shared successfully!');
-                onClose();
-            } catch (error) {
-                console.error('Error sharing form:', error);
-                alert('Failed to share form. Please try again.');
+            } else if (accessType === 'Anyone') {
+                // Proceed without any API call
             }
-        } else if (accessType === 'Anyone') {
-            onClose(); // hide publish popup
-            setTimeout(() => {
-                onShowLinkPopup(); // then show link popup
-            }, 200);
+
+            // After successful publish (for both cases)
+            onClose();
+            navigate('/');
+        } catch (error) {
+            console.error('Error sharing form:', error);
+            alert('Failed to share form. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
+
 
     return (
         <div className="publish-popup-overlay">
@@ -198,7 +205,14 @@ const PublishPopup = ({ onClose, formId, onShowLinkPopup }) => {
                     </div>
                 )}
 
-                <button className="publish-btn" onClick={handlePublish}>Publish</button>
+                {/* <button className="publish-btn" onClick={handlePublish}>Publish</button> */}
+                <button
+                    className="publish-btn"
+                    onClick={handlePublish}
+                    disabled={loading}
+                >
+                    {loading ? 'Publishing...' : 'Publish'}
+                </button>
             </div>
         </div>
     );
