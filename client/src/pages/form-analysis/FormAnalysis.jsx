@@ -25,10 +25,12 @@ const FormAnalysis = () => {
     fetchStats();
   }, [formId]);
 
-  if (!stats) return <div className="analysis-loading">Loading stats...</div>;
-
   return (
     <div className="form-analysis-container">
+      {stats === null ? (
+      <div className="spinner"></div>
+    ) : (
+      <>
       <div className="analysis-cards">
         <div className="analysis-card">
           <p className="analysis-label">Views</p>
@@ -68,6 +70,8 @@ const FormAnalysis = () => {
           </LineChart>
         </ResponsiveContainer>
       </div>
+      </>
+    )}
     </div>
   );
 };

@@ -24,6 +24,10 @@ app.use('/api/password', passwordRoutes);
 app.use('/api/folders', folderRoutes);
 app.use('/api/forms', formRoutes);
 
+app.get('/ping', (req, res) => {
+  res.status(200).send('pong');
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

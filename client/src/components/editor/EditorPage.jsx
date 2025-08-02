@@ -17,6 +17,7 @@ import axios from 'axios';
 import PublishPopup from '../publish-popup/PublishPopup';
 import EditorSidebar from '../editor-sidebar/EditorSidebar';
 import ColorPickerBox from '../color-picker/ColorPicker';
+import { toast } from 'react-toastify';
 
 const EditorPage = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -45,6 +46,8 @@ const EditorPage = () => {
   const [sectionColor, setSectionColor] = useState('#f0f0f0');
   const bgColorRef = useRef(null);
   const sectionColorRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     const fetchForm = async () => {
@@ -52,6 +55,7 @@ const EditorPage = () => {
       if (!userInfo?.token) return;
 
       try {
+        setLoading(true);
         const res = await axios.get(`${backendUrl}/api/forms/${formId}`, {
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
@@ -90,6 +94,8 @@ const EditorPage = () => {
 
       } catch (err) {
         console.error('Error fetching form data:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -145,7 +151,7 @@ const EditorPage = () => {
           id: Date.now(),
           label: '',
           type: 'Multiple Choice',
-          options: ['Option 01', 'Option 02', 'Option 03'],
+          options: ['Your option'],
           starCount: 5,
         },
       });
@@ -226,6 +232,7 @@ const EditorPage = () => {
         alert("User not logged in.");
         return;
       }
+      setIsSaving(true);
       const res = await axios.put(
         `${backendUrl}/api/forms/${formId}`,
         {
@@ -240,19 +247,25 @@ const EditorPage = () => {
       );
 
       if (res.status === 200) {
-        alert('Form saved successfully!');
+        toast.success('Form data added successfully');
         console.log('Updated form:', res.data);
       }
     } catch (err) {
       console.error('Error saving form:', err);
-      alert('Failed to save form.');
+      toast.error('Failed to save form ❌');
+    } finally {
+      setIsSaving(false); // Stop loading
     }
   };
 
+  const isCurrentPageEmpty = () => {
+    const currentPage = pages[currentPageIndex];
+    if (!currentPage || !currentPage.sections) return true;
 
-
-
-  if (!pages || pages.length === 0) return <div>Loading form...</div>;
+    return currentPage.sections.every(
+      (section) => section.content.length === 0
+    );
+  };
 
   return (
     <div className="editor-container">
@@ -273,13 +286,21 @@ const EditorPage = () => {
             <button className="preview-btn">Preview</button>
             {/* <button className="save-btn" onClick={handleSaveForm}>Save</button> */}
             {canEdit && (
-              <button className="save-btn" onClick={() => handleSaveForm()}>Save</button>
+              // <button className="save-btn" onClick={() => handleSaveForm()}>Save</button>
+              <button
+                className="save-btn"
+                onClick={() => handleSaveForm()}
+                disabled={isSaving}
+                style={{ opacity: isSaving ? 0.6 : 1, cursor: isSaving ? 'not-allowed' : 'pointer' }}
+              >
+                {isSaving ? 'Saving...' : 'Save'}
+              </button>
             )}
           </div>
         </div>
 
         <div className="editor-body">
-          <div className="canvas-section">
+          {/* <div className="canvas-section">
             {pages[currentPageIndex].sections.map((section, sectionIndex) => (
               <div
                 key={section.id}
@@ -336,6 +357,76 @@ const EditorPage = () => {
                 })}
               </div>
             ))}
+          </div> */}
+          <div className="canvas-section">
+            {loading ? (
+              <div className="spinner"></div>
+            ) : pages.length === 0 ? (
+              <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
+                Start creating your form
+              </p>
+            ) : (
+              pages[currentPageIndex]?.sections.map((section, sectionIndex) => (
+                <div
+                  key={section.id}
+                  className="section"
+                  style={{
+                    backgroundColor: sectionIndex % 2 === 0 ? '#f0f0f0' : '#e0eaff',
+                    padding: '10px',
+                    marginBottom: '15px',
+                    borderRadius: '8px',
+                  }}
+                >
+                  {section.content.map((block, index) => {
+                    switch (block.type) {
+                      case 'question':
+                        return (
+                          <QuestionBlock
+                            key={block.id}
+                            index={index}
+                            question={block.data}
+                            updateQuestion={(updatedQ) => {
+                              const updated = [...pages];
+                              updated[currentPageIndex].sections[sectionIndex].content[index].data = updatedQ;
+                              setPages(updated);
+                            }}
+                          />
+                        );
+                      case 'text':
+                        return (
+                          <div key={block.id} className="custom-text-block">
+                            <textarea
+                              value={block.data.content || ''}
+                              onChange={(e) => {
+                                if (!canEdit) return;
+                                const updated = [...pages];
+                                updated[currentPageIndex].sections[sectionIndex].content[index].data.content = e.target.value;
+                                setPages(updated);
+                              }}
+                              disabled={!canEdit}
+                              className="text-area-block"
+                            />
+                          </div>
+                        );
+                      case 'image':
+                        return (
+                          <div key={block.id} className="uploaded-image">
+                            <img src={block.data} alt={`uploaded-${index}`} />
+                          </div>
+                        );
+                      case 'video':
+                        return (
+                          <div key={block.id} style={{ marginBottom: '10px' }}>
+                            <video src={block.data} controls width="400" />
+                          </div>
+                        );
+                      default:
+                        return null;
+                    }
+                  })}
+                </div>
+              ))
+            )}
           </div>
           <div className="toolbox">
             {canEdit && (
@@ -392,7 +483,17 @@ const EditorPage = () => {
             </div>
             {goNext && (
               <Link to={`/flow-chart/${formId}`}>
-                <button className="next-btn">Next</button>
+                {/* <button className="next-btn">Next</button> */}
+                <button
+                  className="next-btn"
+                  disabled={isCurrentPageEmpty()}
+                  style={{
+                    opacity: isCurrentPageEmpty() ? 0.6 : 1,
+                    cursor: isCurrentPageEmpty() ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  Next
+                </button>
               </Link>
             )}
           </div>

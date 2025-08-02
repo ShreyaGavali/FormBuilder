@@ -25,6 +25,8 @@ const HomePage = () => {
   const [shareLinkFormId, setShareLinkFormId] = useState(null);
   const [forms, setForms] = useState([]);
   const [folders, setFolders] = useState([]);
+  const [loadingRecent, setLoadingRecent] = useState(true);
+  const [loadingShared, setLoadingShared] = useState(true);
 
   const handleSharedFormClick = (formId, access) => {
     if (access === 'edit') {
@@ -39,6 +41,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchSharedForms = async () => {
       try {
+        setLoadingShared(true);
         // const token = localStorage.getItem('token');
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const token = userInfo?.token;
@@ -52,6 +55,8 @@ const HomePage = () => {
         setSharedForms(res.data);
       } catch (err) {
         console.error('Error fetching shared forms:', err);
+      } finally {
+        setLoadingShared(false);
       }
     };
 
@@ -61,6 +66,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoadingRecent(true);
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const token = userInfo?.token;
 
@@ -85,6 +91,8 @@ const HomePage = () => {
         setFolders(sortedFolders);
       } catch (err) {
         console.error('Error fetching forms/folders:', err);
+      } finally {
+        setLoadingRecent(false); // stop loading
       }
     };
 
@@ -108,45 +116,55 @@ const HomePage = () => {
         <div className="recent-works">
           <p className='recent'>Recent Works</p>
           <div className="work">
-            <div className="work">
-              {forms.length === 0 && folders.length === 0 ? (
-                <p style={{ color: '#888' }}>You don't have any recent work.</p>
-              ) : (
-                <>
-                  {forms.map((form) => (
-                    <Link to={`/create/${form._id}`} key={form._id}>
-                      <Form formName={form.title} img={CreateFormImg} formid={form._id} />
-                    </Link>
-                  ))}
-                  {folders.map((folder) => (
-                    <Link to={`/project/files/${folder._id}`} key={folder._id}>
-                      <Folder projectName={folder.name} img={CreateProjectImg} />
-                    </Link>
-                  ))}
-                </>
-              )}
-            </div>
+            {loadingRecent ? (
+              <div className="spinner"></div>
+            ) : (
+              <>
+                {forms.length === 0 && folders.length === 0 ? (
+                  <p style={{ color: '#888' }}>You don't have any recent work.</p>
+                ) : (
+                  <>
+                    {forms.map((form) => (
+                      <Link to={`/create/${form._id}`} key={form._id}>
+                        <Form formName={form.title} img={CreateFormImg} formid={form._id} />
+                      </Link>
+                    ))}
+                    {folders.map((folder) => (
+                      <Link to={`/project/files/${folder._id}`} key={folder._id}>
+                        <Folder projectName={folder.name} img={CreateProjectImg} />
+                      </Link>
+                    ))}
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
         <div className="share-work">
           <p className='share'>Shared Works</p>
           <div className="shared-work">
-            {sharedForms.length === 0 ? (
-              <p style={{ color: '#888' }}>No forms shared with you.</p>
+            {loadingShared ? (
+              <div className="spinner"></div>
             ) : (
-              sharedForms.map(({ form, access }) => (
-                <div
-                  key={form._id}
-                  onClick={() => handleSharedFormClick(form._id, access)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <Form
-                    formName={`${form.title} (${access})`}
-                    img={CreateFormImg}
-                    formid={form._id}
-                  />
-                </div>
-              ))
+              <>
+                {sharedForms.length === 0 ? (
+                  <p style={{ color: '#888' }}>No forms shared with you.</p>
+                ) : (
+                  sharedForms.map(({ form, access }) => (
+                    <div
+                      key={form._id}
+                      onClick={() => handleSharedFormClick(form._id, access)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <Form
+                        formName={`${form.title} (${access})`}
+                        img={CreateFormImg}
+                        formid={form._id}
+                      />
+                    </div>
+                  ))
+                )}
+              </>
             )}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './QuestionBlock.css';
 import DownArrowImg from '../../assets/Arrows.png';
 
@@ -12,19 +12,55 @@ const QuestionBlock = ({ question, index, updateQuestion }) => {
   const options = question.options ?? [];
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const optionRefs = useRef([]);
+  useEffect(() => {
+    optionRefs.current = optionRefs.current.slice(0, options.length);
+  }, [options]);
+
   const handleLabelChange = (e) => {
     updateQuestion({ ...question, label: e.target.value });
   };
 
-  const handleKeyDown = (e, optIndex) => {
-    if (e.key === 'Backspace' && question.options[optIndex] === '') {
-      const updatedOptions = [...(question.options || [])];
-      if (updatedOptions.length > 1) {
-        updatedOptions.splice(optIndex, 1);
-        updateQuestion({ ...question, options: updatedOptions });
-      }
+  // const handleKeyDown = (e, optIndex) => {
+  //   if (e.key === 'Backspace' && question.options[optIndex] === '') {
+  //     const updatedOptions = [...(question.options || [])];
+  //     if (updatedOptions.length > 1) {
+  //       updatedOptions.splice(optIndex, 1);
+  //       updateQuestion({ ...question, options: updatedOptions });
+  //     }
+  //   }
+  // };
+
+    const handleKeyDown = (e, optIndex) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const updatedOptions = [...options];
+      updatedOptions.splice(optIndex + 1, 0, ''); // insert new empty option
+      updateQuestion({ ...question, options: updatedOptions });
+
+      setTimeout(() => {
+        if (optionRefs.current[optIndex + 1]) {
+          optionRefs.current[optIndex + 1].focus();
+        }
+      }, 0);
+    }
+
+    if (e.key === 'Backspace' && options[optIndex] === '') {
+      if (options.length === 1) return; // Don't remove the last option
+
+      const updatedOptions = [...options];
+      updatedOptions.splice(optIndex, 1);
+      updateQuestion({ ...question, options: updatedOptions });
+
+      setTimeout(() => {
+        const prev = optIndex > 0 ? optIndex - 1 : 0;
+        if (optionRefs.current[prev]) {
+          optionRefs.current[prev].focus();
+        }
+      }, 0);
     }
   };
+
 
   const handleTypeChange = (type) => {
     setShowDropdown(false);
@@ -36,7 +72,7 @@ const QuestionBlock = ({ question, index, updateQuestion }) => {
 
     // Only add options for types that need them
     if (['Multiple Choice', 'Checkbox', 'Dropdown'].includes(type)) {
-      newQuestion.options = ['Option 01', 'Option 02', 'Option 03'];
+      newQuestion.options = [''];
     } else {
       newQuestion.options = []; // avoid undefined
     }
@@ -44,26 +80,33 @@ const QuestionBlock = ({ question, index, updateQuestion }) => {
     updateQuestion(newQuestion);
   };
 
+//   const handleOptionChange = (e, optIndex) => {
+//   const value = e.target?.value;
+
+//   if (typeof value !== 'string') {
+//     console.warn('🚨 Unexpected non-string value in option input:', value);
+//     return;
+//   }
+
+//   const updatedOptions = [...(question.options || [])];
+//   updatedOptions[optIndex] = value;
+
+//   if (optIndex === updatedOptions.length - 1 && value.trim() !== '') {
+//     updatedOptions.push('');
+//   }
+
+//   const cleanOptions = updatedOptions.map(opt => (typeof opt === 'string' ? opt : ''));
+
+//   updateQuestion({ ...question, options: cleanOptions });
+// };
+
   const handleOptionChange = (e, optIndex) => {
-  const value = e.target?.value;
+    const value = e.target?.value;
+    const updatedOptions = [...(question.options || [])];
+    updatedOptions[optIndex] = value;
 
-  if (typeof value !== 'string') {
-    console.warn('🚨 Unexpected non-string value in option input:', value);
-    return;
-  }
-
-  const updatedOptions = [...(question.options || [])];
-  updatedOptions[optIndex] = value;
-
-  if (optIndex === updatedOptions.length - 1 && value.trim() !== '') {
-    updatedOptions.push('');
-  }
-
-  const cleanOptions = updatedOptions.map(opt => (typeof opt === 'string' ? opt : ''));
-
-  updateQuestion({ ...question, options: cleanOptions });
-};
-
+    updateQuestion({ ...question, options: updatedOptions });
+  };
 
   return (
     <div className="question-block">
@@ -121,6 +164,7 @@ const QuestionBlock = ({ question, index, updateQuestion }) => {
                 placeholder={`Option 0${i + 1}`}
                 onChange={(e) => handleOptionChange(e, i)}
                 onKeyDown={(e) => handleKeyDown(e, i)}
+                ref={(el) => (optionRefs.current[i] = el)}
               />
             </div>
           ))}

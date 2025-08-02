@@ -8,6 +8,7 @@ import axios from 'axios';
 const ProjectPage = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [folders, setFolders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -16,6 +17,7 @@ const ProjectPage = () => {
       if (!userInfo?.token) return;
 
       try {
+        setLoading(true);
         const res = await axios.get(`${backendUrl}/api/folders/`, {
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
@@ -24,6 +26,8 @@ const ProjectPage = () => {
         setFolders(res.data);
       } catch (err) {
         console.error('Failed to fetch folders:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -35,7 +39,7 @@ const ProjectPage = () => {
       <div className="home1">
         <p className='welcome'>Welcome to CANOVA</p>
         <hr />
-        <div className="shared-work">
+        {/* <div className="shared-work">
           {folders.map((folder) => (
             <Link
               to={`/project/files/${folder._id}`}
@@ -45,7 +49,25 @@ const ProjectPage = () => {
               <Folder projectName={folder.name} img={CreateProjectImg} />
             </Link>
           ))}
+        </div> */}
+        <div className="shared-work">
+          {loading ? (
+            <div className="spinner"></div>
+          ) : folders.length === 0 ? (
+            <p style={{ color: '#888', textAlign: 'center' }}>You have not created any project yet.</p>
+          ) : (
+            folders.map((folder) => (
+              <Link
+                to={`/project/files/${folder._id}`}
+                key={folder._id}
+                style={{ textDecoration: 'none' }}
+              >
+                <Folder projectName={folder.name} img={CreateProjectImg} />
+              </Link>
+            ))
+          )}
         </div>
+
       </div>
     </div>
   );
