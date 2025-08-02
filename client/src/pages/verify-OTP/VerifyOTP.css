@@ -97,3 +97,9 @@
     margin-bottom: 10px;
     font-weight: 450;
 }
+
+.verify-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}

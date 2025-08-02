@@ -16,10 +16,10 @@ const ForgotPasswordPage = () => {
       return setError("Please enter your registered email");
     }
 
-    setLoading(true);
     setError('');
 
     try {
+      setLoading(true);
       const res = await fetch(`${backendUrl}/api/password/send-otp`, {
         method: 'POST',
         headers: {
@@ -39,6 +39,7 @@ const ForgotPasswordPage = () => {
       }
     } catch (err) {
       setError('Server error. Please try again.');
+      console.log(err);
     } finally {
       setLoading(false);
     }

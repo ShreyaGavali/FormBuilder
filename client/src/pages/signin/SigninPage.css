@@ -99,3 +99,9 @@
     margin-right: 20px !important;
     cursor: pointer;
 }
+
+.signin-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
